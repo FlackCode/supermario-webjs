@@ -1,45 +1,16 @@
+import Compositor from "./Compositor.js";
+import Entity from "./Entity.js";
 import { loadLevel } from "./loaders.js";
 import { loadMarioSprite, loadBackgroundSprites } from "./sprites.js";
-
-function drawBackground(background, context, sprites) {
-    background.ranges.forEach(([x1, x2, y1, y2]) => {
-        for (let x = x1; x < x2; x++) {
-            for (let y = y1; y < y2; y++) {
-                sprites.drawTile(background.tile, context, x, y);
-            }
-        }
-    });
-}
-
-
+import { createBackgroundLayer } from "./layers.js";
 
 const canvas = document.getElementById("screen");
 const context = canvas.getContext("2d");
 
-class Compositor {
-    constructor() {
-        this.layers = [];
+function createSpriteLayer(entity) {
+    return function drawSpriteLayer(context) {
+        entity.draw(context);
     }
-
-    draw(context) {
-        this.layers.forEach(layer => {
-            layer(context);
-        });
-    }
-}
-
-function createBackgroundLayer(backgrounds, sprites) {
-    const buffer = document.createElement("canvas");
-    buffer.width = 256;
-    buffer.height = 240;
-
-    backgrounds.forEach(background => {
-        drawBackground(background, buffer.getContext("2d"), sprites);
-    });
-
-    return function drawBackgroundLayer(context) {
-        context.drawImage(buffer, 0, 0);
-    };
 }
 
 Promise.all([
@@ -48,24 +19,33 @@ Promise.all([
     loadLevel('1-1')
 ]).then(([
     marioSprite,
-    sprites,
+    backgroundSprites,
     level,
 ]) => {
     const comp = new Compositor();
-
-    const backgroundLayer = createBackgroundLayer(level.backgrounds, sprites);
+    const backgroundLayer = createBackgroundLayer(level.backgrounds, backgroundSprites);
     comp.layers.push(backgroundLayer);
 
-    const pos = {
-        x: 64,
-        y: 64,
+    const gravity = 0.5;
+    const mario = new Entity();
+    mario.pos.set(64, 180);
+    mario.vel.set(2, -10);
+
+    mario.draw = function drawMario(context) {
+        marioSprite.draw("idle", context, this.pos.x, this.pos.y);
     }
+    mario.update = function updateMario() {
+        this.pos.x += this.vel.x;
+        this.pos.y += this.vel.y;
+    }
+
+    const spriteLayer = createSpriteLayer(mario);
+    comp.layers.push(spriteLayer);
 
     function update() {
         comp.draw(context);
-        marioSprite.draw("idle", context, pos.x, pos.y);
-        pos.x += 2;
-        pos.y += 2;
+        mario.update();
+        mario.vel.y += gravity;
         requestAnimationFrame(update);
     }
 
