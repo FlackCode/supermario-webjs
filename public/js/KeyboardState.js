@@ -11,28 +11,27 @@ export default class Keyboard {
         this.keyMap = new Map();
     }
 
-    addMapping(keyCode, callback) {
-        this.keyMap.set(keyCode, callback);
+    addMapping(code, callback) {
+        this.keyMap.set(code, callback);
     }
 
     handleEvent(event) {
-        const {keyCode} = event;
+        const {code} = event;
 
-        if (!this.keyMap.has(keyCode)) {
+        if (!this.keyMap.has(code)) {
             return; // not mapped
         }
 
         event.preventDefault();
         const keyState = event.type === 'keydown' ? keyStates.PRESSED : keyStates.RELEASED;
 
-        if (this.keyStates.get(keyCode) === keyState) {
+        if (this.keyStates.get(code) === keyState) {
             return;
         }
 
-        this.keyStates.set(keyCode, keyState);
-        console.log(this.keyStates);
+        this.keyStates.set(code, keyState);
 
-        this.keyMap.get(keyCode)(keyState);
+        this.keyMap.get(code)(keyState);
     }
 
     listenTo(window) {
