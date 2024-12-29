@@ -20,7 +20,7 @@ Promise.all([
     
     mario.pos.set(64, 150);
 
-    level.comp.layers.push(createCameraLayer(camera));
+    //level.comp.layers.push(createCameraLayer(camera));
 
     level.entities.add(mario);
 
