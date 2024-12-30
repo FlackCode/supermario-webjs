@@ -1,8 +1,8 @@
-import { loadLevel } from "./loaders.js";
 import { createMario } from "./entities.js";
 import Timer from "./Timer.js";
 import { setupKeyboard } from "./input.js";
 import Camera from "./Camera.js";
+import { loadLevel } from "./loaders/level.js";
 
 const canvas = document.getElementById("screen");
 const context = canvas.getContext("2d");
