@@ -1,4 +1,4 @@
-import { createMario } from "./entities.js";
+import { loadMario } from "./entities/Mario.js";
 import Timer from "./Timer.js";
 import { setupKeyboard } from "./input.js";
 import Camera from "./Camera.js";
@@ -8,15 +8,17 @@ const canvas = document.getElementById("screen");
 const context = canvas.getContext("2d");
 
 Promise.all([
-    createMario(),
+    loadMario(),
     loadLevel("1-1")
 ]).then(([
-    mario,
+    createMario,
     level,
 ]) => {
     const camera = new Camera();
     
+    const mario = createMario();
     mario.pos.set(64, 150);
+
 
     level.entities.add(mario);
 
