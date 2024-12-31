@@ -4,6 +4,7 @@ import { setupKeyboard } from "./input.js";
 import Camera from "./Camera.js";
 import { loadLevel } from "./loaders/level.js";
 import { loadGoomba } from "./entities/Goomba.js";
+import { loadKoopa } from "./entities/Koopa.js";
 
 const canvas = document.getElementById("screen");
 const context = canvas.getContext("2d");
@@ -11,10 +12,12 @@ const context = canvas.getContext("2d");
 Promise.all([
     loadMario(),
     loadGoomba(),
+    loadKoopa(),
     loadLevel("1-1")
 ]).then(([
     createMario,
     createGoomba,
+    createKoopa,
     level,
 ]) => {
     const camera = new Camera();
@@ -25,6 +28,10 @@ Promise.all([
     const goomba = createGoomba();
     goomba.pos.x = 220;
     level.entities.add(goomba);
+
+    const koopa = createKoopa();
+    koopa.pos.x = 260;
+    level.entities.add(koopa);
 
     level.entities.add(mario);
 
