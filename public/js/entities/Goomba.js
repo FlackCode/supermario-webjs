@@ -21,7 +21,7 @@ class Behavior extends Trait {
             if (them.vel.y > us.vel.y) {
                 us.killable.kill();
                 us.pendulumWalk.speed = 0;
-                us.canCollide = false;
+                them.stomper.bounce(them, us);
             } else {
                 them.killable.kill();
             }
