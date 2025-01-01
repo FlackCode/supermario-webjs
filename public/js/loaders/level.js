@@ -3,6 +3,27 @@ import Level from "../Level.js";
 import { loadJSON, loadSpriteSheet } from "../loaders.js";
 import { Matrix } from "../math.js";
 
+function setupCollision(levelSpec, level) {
+    const mergedTiles = levelSpec.layers.reduce((mergedTiles, layerSpec) => {
+        return mergedTiles.concat(layerSpec.tiles);
+    }, []);
+    const collisionGrid = createCollisionGrid(mergedTiles, levelSpec.patterns);
+    level.setCollisionGrid(collisionGrid);
+}
+
+function setupBackground(levelSpec, level, backgroundSprites) {
+    levelSpec.layers.forEach(layer => {
+        const backgroundGrid = createBackgroundGrid(layer.tiles, levelSpec.patterns);
+        const backgroundLayer = createBackgroundLayer(level, backgroundGrid, backgroundSprites);
+        level.comp.layers.push(backgroundLayer);
+    })
+}
+
+function setupEntities(levelSpec, level) {
+    const spriteLayer = createSpriteLayer(level.entities);
+    level.comp.layers.push(spriteLayer);
+}
+
 export function loadLevel(name) {
     return loadJSON(`levels/${name}.json`)
     .then(levelSpec => Promise.all([
@@ -11,23 +32,9 @@ export function loadLevel(name) {
     ]))
     .then(([levelSpec, backgroundSprites]) => {
         const level = new Level();
-
-        const mergedTiles = levelSpec.layers.reduce((mergedTiles, layerSpec) => {
-            return mergedTiles.concat(layerSpec.tiles);
-        }, []);
-
-        const collisionGrid = createCollisionGrid(mergedTiles, levelSpec.patterns);
-        level.setCollisionGrid(collisionGrid);
-
-        levelSpec.layers.forEach(layer => {
-            const backgroundGrid = createBackgroundGrid(layer.tiles, levelSpec.patterns);
-            const backgroundLayer = createBackgroundLayer(level, backgroundGrid, backgroundSprites);
-            level.comp.layers.push(backgroundLayer);
-        })
-    
-        const spriteLayer = createSpriteLayer(level.entities);
-        level.comp.layers.push(spriteLayer);
-
+        setupCollision(levelSpec, level);
+        setupBackground(levelSpec, level, backgroundSprites);
+        setupEntities(levelSpec, level);
         return level;
     })
 }
