@@ -7,9 +7,16 @@ export function loadKoopa() {
     return loadSpriteSheet("koopa").then(createKoopaFactory);
 }
 
+const STATE_WALKING = Symbol("walking");
+const STATE_HIDING = Symbol("hiding");
+
 class Behavior extends Trait {
+
     constructor() {
         super("behavior");
+        this.state = STATE_WALKING;
+        this.hideTime = 0;
+        this.hideDuration = 5;
     }
 
     collides(us, them) {
@@ -19,11 +26,39 @@ class Behavior extends Trait {
 
         if (them.stomper) {
             if (them.vel.y > us.vel.y) {
-                us.killable.kill();
-                them.stomper.bounce();
-                us.pendulumWalk.speed = 0;
+                this.handleStomp(us, them)
             } else {
                 them.killable.kill();
+            }
+        }
+    }
+
+    handleStomp(us, them) {
+        if (this.state === STATE_WALKING) {
+            this.hide(us);
+        } else if (this.state === STATE_HIDING) {
+            us.killable.kill();
+            us.vel.set(100, -200);
+        }
+    }
+
+    hide(us) {
+        us.vel.x = 0;
+        us.pendulumWalk.enabled = false;
+        this.hideTime = 0;
+        this.state = STATE_HIDING;
+    }
+
+    unhide(us) {
+        us.pendulumWalk.enabled = true;
+        this.state = STATE_WALKING;
+    }
+
+    update(us, deltaTime) {
+        if (this.state == STATE_HIDING) {
+            this.hideTime += deltaTime;
+            if (this.hideTime > this.hideDuration) {
+                this.unhide(us);
             }
         }
     }
@@ -32,8 +67,16 @@ class Behavior extends Trait {
 function createKoopaFactory(sprite) {
     const walkAnim = sprite.animations.get("walk");
 
+    function routeAnim(koopa) {
+        if (koopa.behavior.state === STATE_HIDING) {
+            return "hiding"
+        }
+
+        return walkAnim(koopa.lifetime);
+    }
+
     function drawKoopa(context) {
-        sprite.draw(walkAnim(this.lifetime), context, 0, 0, this.vel.x < 0 ? true : false);
+        sprite.draw(routeAnim(this), context, 0, 0, this.vel.x < 0 ? true : false);
     }
 
     return function createKoopa() {
