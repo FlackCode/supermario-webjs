@@ -4,7 +4,6 @@ import Go from "../traits/Go.js";
 import { loadSpriteSheet } from "../loaders.js";
 import Stomper from "../traits/Stomper.js";
 import Killable from "../traits/Killable.js";
-import PlayerController from "../traits/PlayerController.js";
 
 const FAST_DRAG = 1/5000;
 const SLOW_DRAG = 1/1000;

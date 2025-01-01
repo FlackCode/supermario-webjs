@@ -21,6 +21,7 @@ class Behavior extends Trait {
             if (them.vel.y > us.vel.y) {
                 us.killable.kill();
                 us.pendulumWalk.speed = 0;
+                us.canCollide = false;
             } else {
                 them.killable.kill();
             }
