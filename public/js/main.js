@@ -5,6 +5,8 @@ import { createLevelLoader } from "./loaders/level.js";
 import { loadEntities } from "./entities.js";
 import Entity from "./Entity.js";
 import PlayerController from "./traits/PlayerController.js";
+import { loadFont } from "./loaders/font.js";
+import { createDashboardLayer } from "./layers/dashboard.js";
 
 function createPlayerEnv(playerEntity) {
     const playerEnv = new Entity();
@@ -17,7 +19,10 @@ function createPlayerEnv(playerEntity) {
 
 async function main(canvas) {
     const context = canvas.getContext("2d");
-    const entityFactory = await loadEntities();
+    const [entityFactory, font] = await Promise.all([
+        loadEntities(),
+        loadFont()
+    ]);
     const loadLevel = await createLevelLoader(entityFactory);
     const level = await loadLevel("1-1");
     const camera = new Camera();
@@ -26,6 +31,8 @@ async function main(canvas) {
 
     const playerEnv = createPlayerEnv(mario);
     level.entities.add(playerEnv);
+
+    level.comp.layers.push(createDashboardLayer(font));
 
     const input = setupKeyboard(mario);
     input.listenTo(window);
