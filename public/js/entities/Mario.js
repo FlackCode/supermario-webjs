@@ -6,11 +6,16 @@ import Stomper from "../traits/Stomper.js";
 import Killable from "../traits/Killable.js";
 import Solid from "../traits/Solid.js";
 import Physics from "../traits/Physics.js";
+import { loadAudioBoard } from "../loaders/audio.js";
 
 const FAST_DRAG = 1/5000;
 const SLOW_DRAG = 1/1000;
 
-export function loadMario () {
+export function loadMario (audioContext) {
+    loadAudioBoard("mario", audioContext)
+    .then(audioBoard => {
+        
+    });
     return loadSpriteSheet('mario').then(sprite => {
         return createMarioFactory(sprite);
     });

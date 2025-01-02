@@ -1,5 +1,6 @@
 import { Vec2 } from "./math.js";
 import BoundingBox from "./BoundingBox.js";
+import AudioBoard from "./AudioBoard.js";
 
 export const Sides = {
     TOP: Symbol("top"),
@@ -40,6 +41,7 @@ export class Trait {
 
 export default class Entity {
     constructor() {
+        this.audio = new AudioBoard();
         this.canCollide = true;
         this.pos = new Vec2(0, 0);
         this.vel = new Vec2(0, 0);
