@@ -23,9 +23,6 @@ class Behavior extends Trait {
             if (them.vel.y > us.vel.y) {
                 us.killable.kill();
                 us.pendulumWalk.speed = 0;
-                them.stomper.bounce(them, us);
-                them.stomper.didStomp = true;
-                them.stomper.onStomp(them, us);
             } else {
                 them.killable.kill();
             }
@@ -51,12 +48,13 @@ function createGoombaFactory(sprite) {
     return function createGoomba() {
         const goomba = new Entity();
         goomba.size.set(16, 16);
-        goomba.vel.x = -30;
+
         goomba.addTrait(new Physics());
         goomba.addTrait(new Solid());
         goomba.addTrait(new PendulumWalk());
-        goomba.addTrait(new Behavior());
         goomba.addTrait(new Killable());
+        goomba.addTrait(new Behavior());
+
         goomba.draw = drawGoomba;
         return goomba;
     }
