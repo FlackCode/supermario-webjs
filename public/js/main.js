@@ -7,6 +7,7 @@ import Entity from "./Entity.js";
 import PlayerController from "./traits/PlayerController.js";
 import { loadFont } from "./loaders/font.js";
 import { createDashboardLayer } from "./layers/dashboard.js";
+import { createAudioLoader } from "./loaders/audio.js";
 
 function createPlayerEnv(playerEntity) {
     const playerEnv = new Entity();
@@ -23,6 +24,16 @@ async function main(canvas) {
         loadEntities(),
         loadFont()
     ]);
+
+    const audioContext = new AudioContext();
+    const loadAudio = createAudioLoader(audioContext);
+    loadAudio("audio/jump.ogg").then(buffer => {
+        const source = audioContext.createBufferSource();
+        source.connect(audioContext.destination);
+        source.buffer = buffer;
+        source.start(0);
+    })
+
     const loadLevel = await createLevelLoader(entityFactory);
     const level = await loadLevel("1-1");
     const camera = new Camera();
