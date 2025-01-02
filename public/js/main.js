@@ -7,7 +7,6 @@ import Entity from "./Entity.js";
 import PlayerController from "./traits/PlayerController.js";
 import { loadFont } from "./loaders/font.js";
 import { createDashboardLayer } from "./layers/dashboard.js";
-import AudioBoard from "./AudioBoard.js";
 
 function createPlayerEnv(playerEntity) {
     const playerEnv = new Entity();
@@ -23,7 +22,6 @@ function createPlayerEnv(playerEntity) {
 async function main(canvas) {
     const context = canvas.getContext("2d");
     const audioContext = new AudioContext();
-    const audioBoard = new AudioBoard();
     const [entityFactory, font] = await Promise.all([
         loadEntities(audioContext),
         loadFont()
@@ -44,7 +42,7 @@ async function main(canvas) {
     input.listenTo(window);
 
     const gameContext = {
-        audioBoard,
+        audioContext: audioContext,
         deltaTime: null,
     }
 

@@ -16,7 +16,7 @@ export function loadAudioBoard(name, audioContext) {
             jobs.push(job);
         }) //iterating over objects!!!
         return Promise.all(jobs).then(() => {
-            audioBoard
+            return audioBoard
         });
     })
 }

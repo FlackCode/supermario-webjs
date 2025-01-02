@@ -19,14 +19,14 @@ export default class Stomper extends Trait {
         }
         if (them.killable && us.vel.y > them.vel.y) {
             this.bounce(us, them);
-            this.didStomp = true;
+            this.sounds.add("stomp");
             this.onStomp(us, them);
         }
     }
 
-    update(entity, {audioBoard}) {
+    update(entity, {audioContext}) {
         if (this.didStomp) {
-            audioBoard.playAudio("stomp");
+            this.sounds.add("stomp");
             this.didStomp = false;
         }
     }

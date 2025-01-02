@@ -13,7 +13,7 @@ export const Sides = {
 export class Trait {
     constructor(name) {
         this.NAME = name;
-
+        this.sounds = new Set();
         this.tasks = [];
     }
 
@@ -32,6 +32,13 @@ export class Trait {
 
     obstruct() {
         
+    }
+
+    playSounds(AudioBoard, audioContext) {
+        this.sounds.forEach(name => {
+            AudioBoard.playAudio(name, audioContext);
+        });
+        this.sounds.clear();
     }
 
     update() {
@@ -83,6 +90,7 @@ export default class Entity {
     update(gameContext, level) {
         this.traits.forEach(trait => {
             trait.update(this, gameContext, level);
+            trait.playSounds(this.audio, gameContext.audioContext);
         });
         this.lifetime += gameContext.deltaTime;
     }

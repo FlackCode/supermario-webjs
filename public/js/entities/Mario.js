@@ -12,16 +12,20 @@ const FAST_DRAG = 1/5000;
 const SLOW_DRAG = 1/1000;
 
 export function loadMario (audioContext) {
-    loadAudioBoard("mario", audioContext)
-    .then(audioBoard => {
-        
-    });
-    return loadSpriteSheet('mario').then(sprite => {
-        return createMarioFactory(sprite);
-    });
+    return Promise.all([
+        loadSpriteSheet('mario'),
+        loadAudioBoard("mario", audioContext)
+    ]).then((
+        [
+            sprite, 
+            audio
+        ]
+    ) => {
+        return createMarioFactory(sprite, audio);
+    })
 }
 
-function createMarioFactory(sprite) {
+function createMarioFactory(sprite, audio) {
     const runAnim = sprite.animations.get("run");
     function routeFrame(mario) {
         if (mario.jump.falling) {
@@ -46,6 +50,7 @@ function createMarioFactory(sprite) {
 
     return function createMario() {
         const mario = new Entity();
+        mario.audio = audio;
         mario.size.set(14, 16);
         mario.addTrait(new Physics());
         mario.addTrait(new Solid());
