@@ -21,7 +21,9 @@ class Behavior extends Trait {
 
         if (them.stomper) {
             if (them.vel.y > us.vel.y) {
-                us.killable.kill();
+                this.queue(() => {
+                    us.killable.kill();
+                })
                 us.pendulumWalk.speed = 0;
             } else {
                 them.killable.kill();
