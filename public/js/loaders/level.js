@@ -35,8 +35,9 @@ export function createLevelLoader(entityFactory) {
             loadSpriteSheet(levelSpec.spriteSheet),
             loadMusicSheet(levelSpec.musicSheet)
         ]))
-        .then(([levelSpec, backgroundSprites]) => {
+        .then(([levelSpec, backgroundSprites, musicPlayer]) => {
             const level = new Level();
+            level.music.setPlayer(musicPlayer);
             setupBackground(levelSpec, level, backgroundSprites);
             setupEntities(levelSpec, level, entityFactory);
             return level;

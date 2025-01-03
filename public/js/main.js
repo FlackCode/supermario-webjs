@@ -47,7 +47,14 @@ async function main(canvas) {
         level.comp.draw(context, camera);
     }
     timer.start();
+    level.music.player.playTrack("main");
 }
 
 const canvas = document.getElementById("screen");
-main(canvas);
+
+const start = () => {
+    window.removeEventListener('click', start);
+    main(canvas);
+};
+
+window.addEventListener('click', start);
