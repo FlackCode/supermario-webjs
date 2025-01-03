@@ -14,7 +14,7 @@ function handleX(entity, match) {
     }
 }
 
-function handleY(entity, match) {
+function handleY(entity, match, resolver) {
     if (entity.vel.y > 0) {
         if (entity.bounds.bottom > match.y1) {
             entity.obstruct(Sides.BOTTOM, match);
@@ -22,7 +22,8 @@ function handleY(entity, match) {
     }
 
     else if (entity.vel.y < 0) {
-        console.log("Collided with brick")
+        const grid = resolver.matrix;
+        grid.delete(match.indexX, match.indexY);
         if (entity.bounds.top < match.y2) {
             entity.obstruct(Sides.TOP, match);
         }
