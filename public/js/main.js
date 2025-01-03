@@ -30,7 +30,8 @@ async function main(canvas) {
     input.listenTo(window);
 
     const gameContext = {
-        audioContext: audioContext,
+        audioContext,
+        entityFactory,
         deltaTime: null,
     }
 

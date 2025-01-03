@@ -16,7 +16,7 @@ export default class TileCollider {
         this.resolvers.push(new TileResolver(tileMatrix));
     }
 
-    checkX(entity) {
+    checkX(entity, gameContext, level) {
         let x;
         if (entity.vel.x > 0) {
             x = entity.bounds.right;
@@ -30,12 +30,12 @@ export default class TileCollider {
             const matches = resolver.searchByRange(x, x, entity.bounds.top, entity.bounds.bottom);
 
             matches.forEach(match => {
-                this.handle(0, entity, match, resolver)
+                this.handle(0, entity, match, resolver, gameContext, level);
             });
         }
     }
 
-    checkY(entity) {
+    checkY(entity, gameContext, level) {
         let y;
         if (entity.vel.y > 0) {
             y = entity.bounds.bottom;
@@ -49,15 +49,22 @@ export default class TileCollider {
             const matches = resolver.searchByRange(entity.bounds.left, entity.bounds.right, y, y);
 
             matches.forEach(match => {
-                this.handle(1, entity, match, resolver)
+                this.handle(1, entity, match, resolver, gameContext, level);
             });
         }
     }
 
-    handle(index, entity, match, resolver) {
+    handle(index, entity, match, resolver, gameContext, level) {
+        const tileCollisionContext = {
+            entity,
+            match,
+            resolver,
+            gameContext,
+            level
+        }
         const handler = handlers[match.tile.type];
         if (handler) {
-            handler[index](entity, match, resolver);
+            handler[index](tileCollisionContext);
         }
     }
 
