@@ -1,10 +1,31 @@
+import Entity from "../Entity.js";
 import { createBackgroundLayer } from "../layers/background.js";
 import { createSpriteLayer } from "../layers/sprites.js";
 import Level from "../Level.js";
 import { loadJSON } from "../loaders.js";
 import { Matrix } from "../math.js";
+import LevelTimer from "../traits/LevelTimer.js";
 import { loadMusicSheet } from "./music.js";
 import { loadSpriteSheet } from "./sprite.js";
+
+function createTimer() {
+    const timer = new Entity();
+    timer.addTrait(new LevelTimer());
+    return timer;
+}
+
+function setupBehavior(level) {
+    const timer = createTimer();
+    level.entities.add(timer);
+
+    level.events.listen(LevelTimer.EVENT_TIMER_OK, () => {
+        level.music.playTheme();
+    });
+
+    level.events.listen(LevelTimer.EVENT_TIMER_HURRY, () => {
+        level.music.playHurryTheme();
+    })
+}
 
 function setupBackground(levelSpec, level, backgroundSprites) {
     levelSpec.layers.forEach(layer => {
@@ -40,6 +61,7 @@ export function createLevelLoader(entityFactory) {
             level.music.setPlayer(musicPlayer);
             setupBackground(levelSpec, level, backgroundSprites);
             setupEntities(levelSpec, level, entityFactory);
+            setupBehavior(level);
             return level;
         })
     }
