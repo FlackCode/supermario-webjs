@@ -14,6 +14,10 @@ function createTimer() {
     return timer;
 }
 
+function loadPattern(name) {
+    return loadJSON(`sprites/patterns/${name}.json`);
+}
+
 function setupBehavior(level) {
     const timer = createTimer();
     level.entities.add(timer);
@@ -27,9 +31,9 @@ function setupBehavior(level) {
     })
 }
 
-function setupBackground(levelSpec, level, backgroundSprites) {
+function setupBackground(levelSpec, level, backgroundSprites, patterns) {
     levelSpec.layers.forEach(layer => {
-        const grid = createGrid(layer.tiles, levelSpec.patterns);
+        const grid = createGrid(layer.tiles, patterns);
         const backgroundLayer = createBackgroundLayer(level, grid, backgroundSprites);
         level.comp.layers.push(backgroundLayer);
         level.tileCollider.addGrid(grid);
@@ -54,12 +58,13 @@ export function createLevelLoader(entityFactory) {
         .then(levelSpec => Promise.all([
             levelSpec,
             loadSpriteSheet(levelSpec.spriteSheet),
-            loadMusicSheet(levelSpec.musicSheet)
+            loadMusicSheet(levelSpec.musicSheet),
+            loadPattern(levelSpec.patternSheet)
         ]))
-        .then(([levelSpec, backgroundSprites, musicPlayer]) => {
+        .then(([levelSpec, backgroundSprites, musicPlayer, patterns]) => {
             const level = new Level();
             level.music.setPlayer(musicPlayer);
-            setupBackground(levelSpec, level, backgroundSprites);
+            setupBackground(levelSpec, level, backgroundSprites, patterns);
             setupEntities(levelSpec, level, entityFactory);
             setupBehavior(level);
             return level;
