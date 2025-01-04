@@ -5,23 +5,21 @@ import MusicController from "./MusicController.js";
 import TileCollider from "./TileCollider.js";
 import Camera from "./Camera.js";
 import { findPlayers } from "./player.js";
-
+import Scene from "./Scene.js"
 function focusPlayer(level) {
     for (const player of findPlayers(level)) {
         level.camera.pos.x = Math.max(0, player.pos.x - 100);
     }
 }
 
-export default class Level {
+export default class Level extends Scene {
     constructor() {
+        super();
         this.gravity = 1500;
         this.totalTime = 0;
         this.name = "";
-
         this.camera = new Camera();
         this.music = new MusicController();
-        this.events = new EventEmitter();
-        this.comp = new Compositor();
         this.entities = new Set();
         this.tileCollider = new TileCollider();
         this.entityCollider = new EntityCollider(this.entities);
