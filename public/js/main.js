@@ -7,6 +7,8 @@ import { createDashboardLayer } from "./layers/dashboard.js";
 import { createPlayer, createPlayerEnv } from "./player.js";
 import SceneRunner from "./SceneRunner.js";
 import { createPlayerProgressLayer } from "./layers/player-progress.js";
+import CompositionScene from "./CompositionScene.js";
+import Scene from "./Scene.js";
 
 async function main(canvas) {
     const videoContext = canvas.getContext("2d");
@@ -19,22 +21,30 @@ async function main(canvas) {
     const loadLevel = await createLevelLoader(entityFactory);
 
     const sceneRunner = new SceneRunner();
-    const level = await loadLevel("1-2");
-
     const mario = createPlayer(entityFactory.mario());
     mario.player.name = "MARIO";
-    level.entities.add(mario);
-
-    const playerEnv = createPlayerEnv(mario);
-    level.entities.add(playerEnv);
-
-    level.comp.layers.push(createDashboardLayer(font, level));
-    level.comp.layers.push(createPlayerProgressLayer(font, level));
     
     const inputRouter = setupKeyboard(window);
     inputRouter.addReceiver(mario);
 
-    sceneRunner.addScene(level);
+    async function runLevel(name) {
+        const level = await loadLevel(name);
+
+        level.entities.add(mario);
+
+        const playerEnv = createPlayerEnv(mario);
+        level.entities.add(playerEnv);
+
+        const waitScreen = new CompositionScene();
+        //waitScreen.comp.layers.push(createDashboardLayer(font, level));
+        waitScreen.comp.layers.push(createPlayerProgressLayer(font, level));
+        sceneRunner.addScene(waitScreen);
+
+        level.comp.layers.push(createDashboardLayer(font, level));
+        sceneRunner.addScene(level);
+
+        sceneRunner.runNext();
+    }
 
     const gameContext = {
         audioContext,
@@ -49,8 +59,7 @@ async function main(canvas) {
         sceneRunner.update(gameContext);
     }
     timer.start();
-    sceneRunner.runNext();
-    
+    runLevel("1-2");
 }
 
 const canvas = document.getElementById("screen");
