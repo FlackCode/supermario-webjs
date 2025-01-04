@@ -63,6 +63,7 @@ export function createLevelLoader(entityFactory) {
         ]))
         .then(([levelSpec, backgroundSprites, musicPlayer, patterns]) => {
             const level = new Level();
+            level.name = name;
             level.music.setPlayer(musicPlayer);
             setupBackground(levelSpec, level, backgroundSprites, patterns);
             setupEntities(levelSpec, level, entityFactory);
