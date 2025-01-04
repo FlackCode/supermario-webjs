@@ -13,6 +13,8 @@ function focusPlayer(level) {
 }
 
 export default class Level extends Scene {
+    static EVENT_TRIGGER = Symbol("trigger");
+    
     constructor() {
         super();
         this.gravity = 1500;
