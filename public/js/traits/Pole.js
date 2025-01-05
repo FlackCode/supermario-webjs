@@ -1,5 +1,6 @@
 import { Vec2 } from "../math.js";
 import Trait from "../Trait.js";
+import Player from "./Player.js";
 import PoleTraveller from "./PoleTraveller.js";
 
 function createTravellerState() {
@@ -46,7 +47,7 @@ export default class Pole extends Trait {
     }
 
     update(pole, {deltaTime}, level) {
-        console.log("Updating pole");
+        console.log(pole.pos, level.entities);
         const distance = this.velocity * deltaTime;
         for (const [traveller, state] of this.travellers.entries()) {
             if (!state.done) {

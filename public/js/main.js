@@ -12,6 +12,7 @@ import Level from "./Level.js";
 import TimedScene from "./TimedScene.js";
 import Scene from "./Scene.js";
 import { createTextLayer } from "./layers/text.js";
+import { createCollisionLayer } from "./layers/collision.js";
 
 async function main(canvas) {
     const videoContext = canvas.getContext("2d");
@@ -20,7 +21,7 @@ async function main(canvas) {
         loadEntities(audioContext),
         loadFont()
     ]);
-
+    console.log(entityFactory)
     const loadLevel = await createLevelLoader(entityFactory);
 
     const sceneRunner = new SceneRunner();
@@ -56,6 +57,8 @@ async function main(canvas) {
                 }
             }
         });
+
+        //level.comp.layers.push(createCollisionLayer(level));
 
         const dashboardLayer = createDashboardLayer(font, mario);
         level.comp.layers.push(dashboardLayer);

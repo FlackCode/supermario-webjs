@@ -106,7 +106,6 @@ function setupEntities(levelSpec, level, entityFactory) {
     const entityProxy = new Entity();
     entityProxy.addTrait(spawner);
     level.entities.add(entityProxy);
-    console.log(level.entities);
 }
 
 function setupTriggers(levelSpec, level) {

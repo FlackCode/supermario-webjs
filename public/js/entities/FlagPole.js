@@ -12,11 +12,12 @@ export function loadFlagPole(audioContext) {
 }
 
 function createFlagPoleFactory(audio) {
-    const entity = new Entity();
-    entity.audio = audio;
-    entity.size.set(8, 144);
-    entity.offset.set(4, 0);
-    entity.addTrait(new Pole());
-    console.log(entity)
-    return entity;
+    return function createFlagPole() {
+        const entity = new Entity();
+        entity.audio = audio;
+        entity.size.set(8, 144);
+        entity.offset.set(4, -2);
+        entity.addTrait(new Pole());
+        return entity;
+    }
 }
