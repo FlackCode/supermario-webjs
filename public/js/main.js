@@ -7,9 +7,12 @@ import { createDashboardLayer } from "./layers/dashboard.js";
 import { createPlayer, createPlayerEnv } from "./player.js";
 import SceneRunner from "./SceneRunner.js";
 import { createPlayerProgressLayer } from "./layers/player-progress.js";
-import CompositionScene from "./CompositionScene.js";
+import CompositionScene from "./TimedScene.js";
 import { createColorLayer } from "./layers/color.js";
 import Level from "./Level.js";
+import TimedScene from "./TimedScene.js";
+import Scene from "./Scene.js";
+import { createTextLayer } from "./layers/text.js";
 
 async function main(canvas) {
     const videoContext = canvas.getContext("2d");
@@ -28,7 +31,16 @@ async function main(canvas) {
     inputRouter.addReceiver(mario);
 
     async function runLevel(name) {
+        const loadScreen = new Scene();
+        loadScreen.comp.layers.push(createColorLayer('#000'));
+        loadScreen.comp.layers.push(createTextLayer(font, `Loading ${name}...`));
+        sceneRunner.addScene(loadScreen);
+        sceneRunner.runNext();
+
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
         const level = await loadLevel(name);
+
         level.events.listen(Level.EVENT_TRIGGER, (spec, trigger, touches) => {
             if (spec.type === "goto") {
                 for (const entity of touches) {
@@ -40,8 +52,6 @@ async function main(canvas) {
             }
         });
 
-        
-
         mario.pos.set(0, 0);
         level.entities.add(mario);
 
@@ -51,7 +61,7 @@ async function main(canvas) {
         const playerEnv = createPlayerEnv(mario);
         level.entities.add(playerEnv);
 
-        const waitScreen = new CompositionScene();
+        const waitScreen = new TimedScene();
         waitScreen.countDown = 2;
         waitScreen.comp.layers.push(createColorLayer('#000'));
         waitScreen.comp.layers.push(dashboardLayer);
