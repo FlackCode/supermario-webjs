@@ -1,11 +1,10 @@
-import Compositor from "./Compositor.js";
 import EntityCollider from "./EntityCollider.js";
-import EventEmitter from "./EventEmitter.js";
 import MusicController from "./MusicController.js";
 import TileCollider from "./TileCollider.js";
 import Camera from "./Camera.js";
 import { findPlayers } from "./player.js";
 import Scene from "./Scene.js"
+
 function focusPlayer(level) {
     for (const player of findPlayers(level.entities)) {
         level.camera.pos.x = Math.max(0, player.pos.x - 100);
@@ -28,13 +27,13 @@ export default class Level extends Scene {
     }
 
     draw({videoContext}) {
+        videoContext.clearRect(0, 0, videoContext.canvas.width, videoContext.canvas.height);
         this.comp.draw(videoContext, this.camera);
     }
 
     update(gameContext) {
         this.entities.forEach(entity => {
             entity.update(gameContext, this);
-            
         });
 
         this.entities.forEach(entity => {

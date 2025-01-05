@@ -4,7 +4,7 @@ import { createLevelLoader } from "./loaders/level.js";
 import { loadEntities } from "./entities.js";
 import { loadFont } from "./loaders/font.js";
 import { createDashboardLayer } from "./layers/dashboard.js";
-import { makePlayer, createPlayerEnv, findPlayers, bootstrapPlayer, resetPlayer } from "./player.js";
+import { makePlayer, findPlayers, bootstrapPlayer, resetPlayer } from "./player.js";
 import SceneRunner from "./SceneRunner.js";
 import { createPlayerProgressLayer } from "./layers/player-progress.js";
 import { createColorLayer } from "./layers/color.js";
@@ -51,7 +51,7 @@ async function main(canvas) {
         level.events.listen(Level.EVENT_TRIGGER, (spec, trigger, touches) => {
             if (spec.type === "goto") {
                 for (const _ of findPlayers(touches)) {
-                    runLevel(spec.name);
+                    startWorld(spec.name);
                     return;
                 }
             }

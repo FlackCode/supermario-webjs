@@ -1,4 +1,5 @@
 import Entity from "./Entity.js";
+import { Vec2 } from "./math.js";
 import LevelTimer from "./traits/LevelTimer.js";
 import Player from "./traits/Player.js";
 import PlayerController from "./traits/PlayerController.js";
@@ -23,13 +24,12 @@ export function makePlayer(entity, name) {
 
 export function resetPlayer(entity, worldName) {
     entity.traits.get(LevelTimer).reset();
-    console.log(worldName);
     entity.traits.get(Player).world = worldName;
 }
 
 export function bootstrapPlayer(entity, level) {
     entity.traits.get(LevelTimer).hurryEmitted = null;
-    entity.pos.copy(40, 192); //level.checkpoints[0]
+    entity.pos.copy(new Vec2(40, 192)); //level.checkpoints[0]
     level.entities.add(entity);
 }
 
