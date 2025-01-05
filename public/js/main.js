@@ -21,7 +21,6 @@ async function main(canvas) {
         loadEntities(audioContext),
         loadFont()
     ]);
-    console.log(entityFactory)
     const loadLevel = await createLevelLoader(entityFactory);
 
     const sceneRunner = new SceneRunner();

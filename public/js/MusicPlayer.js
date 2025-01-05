@@ -7,7 +7,7 @@ export default class MusicPlayer {
         const audio = new Audio();
         audio.loop = true;
         audio.src = url;
-        audio.volume = 0.3;
+        audio.volume = 0.5;
         this.tracks.set(name, audio);
     }
 
