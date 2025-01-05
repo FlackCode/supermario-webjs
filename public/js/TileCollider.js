@@ -44,7 +44,7 @@ export default class TileCollider {
         } else if (entity.vel.y < 0){
             y = entity.bounds.top;
         } else {
-            return
+            return;
         }
 
         for (const resolver of this.resolvers) {
@@ -64,7 +64,7 @@ export default class TileCollider {
             gameContext,
             level
         }
-        const handler = handlers[match.tile.type];
+        const handler = handlers[match.tile.behavior];
         if (handler) {
             handler[index](tileCollisionContext);
         }

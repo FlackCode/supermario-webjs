@@ -9,7 +9,7 @@ import Stomper from "../traits/Stomper.js";
 import Go from "../traits/Go.js";
 
 export function loadKoopa() {
-    return loadSpriteSheet("koopa").then(createKoopaFactory);
+    return loadSpriteSheet("koopa-green").then(createKoopaFactory);
 }
 
 const STATE_WALKING = Symbol("walking");

@@ -7,17 +7,16 @@ export function createBackgroundLayer(level, tiles, sprites) {
     buffer.height = 240;
 
     const context = buffer.getContext("2d");
-
     function redraw(startIndex, endIndex) {
         context.clearRect(0, 0, buffer.width, buffer.height);
         for (let x = startIndex; x <= endIndex; x++) {
             const col = tiles.grid[x];
             if (col) {
                 col.forEach((tile, y) => {
-                    if (sprites.animations.has(tile.name)) {
-                        sprites.drawAnim(tile.name, context, x - startIndex, y, level.totalTime);
+                    if (sprites.animations.has(tile.style)) {
+                        sprites.drawAnim(tile.style, context, x - startIndex, y, level.totalTime);
                     } else {
-                        sprites.drawTile(tile.name, context, x - startIndex, y);
+                        sprites.drawTile(tile.style, context, x - startIndex, y);
                     }
                     
                 });

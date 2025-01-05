@@ -29,7 +29,7 @@ export function resetPlayer(entity, worldName) {
 
 export function bootstrapPlayer(entity, level) {
     entity.traits.get(LevelTimer).hurryEmitted = null;
-    entity.pos.copy(new Vec2(40, 192)); //level.checkpoints[0]
+    entity.pos.copy(level.checkpoints[0]);
     level.entities.add(entity);
 }
 

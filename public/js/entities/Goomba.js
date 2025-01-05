@@ -8,7 +8,7 @@ import Solid from "../traits/Solid.js";
 import Stomper from "../traits/Stomper.js";
 
 export function loadGoomba() {
-    return loadSpriteSheet("goomba").then(createGoombaFactory);
+    return loadSpriteSheet("goomba-brown").then(createGoombaFactory);
 }
 
 class Behavior extends Trait {
