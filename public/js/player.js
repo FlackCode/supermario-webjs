@@ -1,4 +1,5 @@
 import Entity from "./Entity.js";
+import LevelTimer from "./traits/LevelTimer.js";
 import Player from "./traits/Player.js";
 import PlayerController from "./traits/PlayerController.js";
 
@@ -15,6 +16,21 @@ export function makePlayer(entity, name) {
     const player = new Player();
     player.name = name;
     entity.addTrait(player);
+
+    const timer = new LevelTimer();
+    entity.addTrait(timer);
+}
+
+export function resetPlayer(entity, worldName) {
+    entity.traits.get(LevelTimer).reset();
+    console.log(worldName);
+    entity.traits.get(Player).world = worldName;
+}
+
+export function bootstrapPlayer(entity, level) {
+    entity.traits.get(LevelTimer).hurryEmitted = null;
+    entity.pos.copy(40, 192); //level.checkpoints[0]
+    level.entities.add(entity);
 }
 
 export function* findPlayers(entities) {
