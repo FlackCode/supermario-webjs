@@ -1,8 +1,9 @@
 import Trait from "../Trait.js";
+import Jump from "./Jump.js";
 
 export default class Go extends Trait {
     constructor() {
-        super("go");
+        super();
 
         this.dir = 0;
         this.acceleration = 400;
@@ -16,8 +17,8 @@ export default class Go extends Trait {
         const absX = Math.abs(entity.vel.x);
         if (this.dir !== 0) {
             entity.vel.x += this.acceleration * deltaTime * this.dir;
-            if (entity.jump) {
-                if (entity.jump.falling === false) {
+            if (entity.traits.has(Jump)) {
+                if (entity.traits.get(Jump).falling === false) {
                     this.heading = this.dir;
                 }
             } else {

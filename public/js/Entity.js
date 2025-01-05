@@ -21,14 +21,13 @@ export default class Entity {
         this.offset = new Vec2(0, 0);
         this.bounds = new BoundingBox(this.pos, this.size, this.offset);
         this.lifetime = 0;
-        this.traits = [];
+        this.traits = new Map();
         this.sounds = new Set();
         this.events = new EventBuffer();
     }
 
     addTrait(trait) {
-        this.traits.push(trait);
-        this[trait.NAME] = trait;
+        this.traits.set(trait.constructor, trait);
     }
 
     collides(candidate) {

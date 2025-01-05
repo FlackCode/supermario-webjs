@@ -1,13 +1,14 @@
 import { findPlayers } from "../player.js";
+import Player from "../traits/Player.js";
 
-function getPlayerTrait(level) {
-    for (const entity of findPlayers(level)) {
-        return entity.player;
+function getPlayerTrait(entities) {
+    for (const entity of findPlayers(entities)) {
+        return entity.traits.get(Player);
     }
 }
 
-function getPlayer(level) {
-    for (const entity of findPlayers(level)) {
+function getPlayer(entities) {
+    for (const entity of findPlayers(entities)) {
         return entity;
     }
 }
@@ -20,8 +21,8 @@ export function createPlayerProgressLayer(font, level) {
 
     const size = font.size
     
-    const playerTrait = getPlayerTrait(level);
-    const player = getPlayer(level);
+    const playerTrait = getPlayerTrait(level.entities);
+    const player = getPlayer(level.entities);
     const {lives} = playerTrait;
     const {name} = level;
 

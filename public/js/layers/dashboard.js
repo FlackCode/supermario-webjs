@@ -1,15 +1,17 @@
 import { findPlayers } from "../player.js";
+import LevelTimer from "../traits/LevelTimer.js";
+import Player from "../traits/Player.js";
 
-function getPlayerTrait(level) {
-    for (const entity of findPlayers(level)) {
-        return entity.player;
+function getPlayerTrait(entities) {
+    for (const entity of findPlayers(entities)) {
+        return entity.traits.get(Player);
     }
 }
 
-function getTimerTrait(level) {
-    for (const entity of level.entities) {
-        if (entity.levelTimer) {
-            return entity.levelTimer;
+function getTimerTrait(entities) {
+    for (const entity of entities) {
+        if (entity.traits.has(LevelTimer)) {
+            return entity.traits.get(LevelTimer);
         }
     }
 }
@@ -19,8 +21,8 @@ export function createDashboardLayer(font, level) {
     const LINE2 = font.size * 2;
 
     return function drawDashboard(context) {
-        const playerTrait = getPlayerTrait(level);
-        const timerTrait = getTimerTrait(level);
+        const playerTrait = getPlayerTrait(level.entities);
+        const timerTrait = getTimerTrait(level.entities);
         const {currentTime} = timerTrait;
         const {score, coins} = playerTrait;
         const {name} = level;

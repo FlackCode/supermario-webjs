@@ -4,7 +4,7 @@ import { createLevelLoader } from "./loaders/level.js";
 import { loadEntities } from "./entities.js";
 import { loadFont } from "./loaders/font.js";
 import { createDashboardLayer } from "./layers/dashboard.js";
-import { createPlayer, createPlayerEnv } from "./player.js";
+import { makePlayer, createPlayerEnv, findPlayers } from "./player.js";
 import SceneRunner from "./SceneRunner.js";
 import { createPlayerProgressLayer } from "./layers/player-progress.js";
 import { createColorLayer } from "./layers/color.js";
@@ -24,8 +24,9 @@ async function main(canvas) {
     const loadLevel = await createLevelLoader(entityFactory);
 
     const sceneRunner = new SceneRunner();
-    const mario = createPlayer(entityFactory.mario());
-    mario.player.name = "MARIO";
+    const mario = entityFactory.mario();
+    makePlayer(mario, "MARIO");
+
     const inputRouter = setupKeyboard(window);
     inputRouter.addReceiver(mario);
 
@@ -42,11 +43,9 @@ async function main(canvas) {
 
         level.events.listen(Level.EVENT_TRIGGER, (spec, trigger, touches) => {
             if (spec.type === "goto") {
-                for (const entity of touches) {
-                    if (entity.player) {
-                        runLevel(spec.name);
-                        return;
-                    }
+                for (const _ of findPlayers(touches)) {
+                    runLevel(spec.name);
+                    return;
                 }
             }
         });
