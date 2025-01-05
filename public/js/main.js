@@ -7,7 +7,6 @@ import { createDashboardLayer } from "./layers/dashboard.js";
 import { createPlayer, createPlayerEnv } from "./player.js";
 import SceneRunner from "./SceneRunner.js";
 import { createPlayerProgressLayer } from "./layers/player-progress.js";
-import CompositionScene from "./TimedScene.js";
 import { createColorLayer } from "./layers/color.js";
 import Level from "./Level.js";
 import TimedScene from "./TimedScene.js";
@@ -87,7 +86,7 @@ async function main(canvas) {
         sceneRunner.update(gameContext);
     }
     timer.start();
-    runLevel("debug-progression");
+    runLevel("1-1");
 }
 
 const canvas = document.getElementById("screen");

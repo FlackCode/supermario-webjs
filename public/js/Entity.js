@@ -2,50 +2,13 @@ import { Vec2 } from "./math.js";
 import BoundingBox from "./BoundingBox.js";
 import AudioBoard from "./AudioBoard.js";
 import EventBuffer from "./EventBuffer.js";
+import Trait from "./Trait.js";
 
 export const Sides = {
     TOP: Symbol("top"),
     BOTTOM: Symbol("bottom"),
     LEFT: Symbol("left"),
     RIGHT: Symbol("right")
-
-}
-
-export class Trait {
-    static EVENT_TASK = Symbol("task");
-
-    constructor(name) {
-        this.NAME = name;
-        this.listeners = [];
-    }
-
-    listen(name, callback, count = Infinity) {
-        const listener = {name, callback, count};
-        this.listeners.push(listener);
-    }
-
-    finalize(entity) {
-        this.listeners = this.listeners.filter(listener => {
-            entity.events.process(listener.name, listener.callback);
-            return --listener.count;
-        });
-    }
-
-    queue(task) {
-        this.listen(Trait.EVENT_TASK, task, 1);
-    }
-
-    collides(us, them) {
-
-    }
-
-    obstruct() {
-        
-    }
-
-    update() {
-        
-    }
 }
 
 export default class Entity {

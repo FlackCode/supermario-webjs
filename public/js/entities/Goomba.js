@@ -1,4 +1,5 @@
-import Entity, { Trait } from "../Entity.js";
+import Entity from "../Entity.js";
+import Trait from "../Trait.js";
 import { loadSpriteSheet } from "../loaders/sprite.js";
 import Killable from "../traits/Killable.js";
 import PendulumWalk from "../traits/PendulumWalk.js";
