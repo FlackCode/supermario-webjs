@@ -7,6 +7,7 @@ import Solid from "../traits/Solid.js";
 import Physics from "../traits/Physics.js";
 import { loadAudioBoard } from "../loaders/audio.js";
 import { loadSpriteSheet } from "../loaders/sprite.js";
+import PoleTraveller from "../traits/PoleTraveller.js";
 
 const FAST_DRAG = 1/5000;
 const SLOW_DRAG = 1/1000;
@@ -59,6 +60,7 @@ function createMarioFactory(sprite, audio) {
         mario.addTrait(new Jump());
         mario.addTrait(new Killable());
         mario.addTrait(new Stomper());
+        mario.addTrait(new PoleTraveller());
 
         mario.traits.get(Killable).removeAfter = Infinity;
         mario.traits.get(Jump).velocity = 175;

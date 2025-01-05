@@ -3,6 +3,7 @@ import { loadGoomba } from "./entities/Goomba.js"
 import { loadKoopa } from "./entities/Koopa.js"
 import { loadBullet } from "./entities/Bullet.js";
 import { loadCannon } from "./entities/Cannon.js";
+import { loadFlagPole } from "./entities/FlagPole.js";
 
 export function loadEntities(audioContext) {
     const entityFactories = {};
@@ -16,6 +17,7 @@ export function loadEntities(audioContext) {
         loadGoomba(audioContext).then(addAs("goomba-brown")),
         loadKoopa(audioContext).then(addAs("koopa-green")),
         loadBullet(audioContext).then(addAs("bullet")),
-        loadCannon(audioContext).then(addAs("cannon"))
+        loadCannon(audioContext).then(addAs("cannon")),
+        loadFlagPole(audioContext).then(addAs("flag-pole")),
     ]).then(() => entityFactories);
 }

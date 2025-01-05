@@ -54,7 +54,6 @@ function createGoombaFactory(sprite) {
         goomba.addTrait(new PendulumWalk());
         goomba.addTrait(new Killable());
         goomba.addTrait(new Behavior());
-
         goomba.draw = drawGoomba;
         return goomba;
     }
