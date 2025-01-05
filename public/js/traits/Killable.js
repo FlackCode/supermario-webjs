@@ -9,12 +9,12 @@ export default class Killable extends Trait {
 
     kill() {
         this.queue(() => this.dead = true)
-        this.dead = true;
     }
 
     revive() {
         this.dead = false;
         this.deadTime = 0;
+        console.log("Revived");
     }
 
     update(entity, {deltaTime}, level) {

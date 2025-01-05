@@ -52,15 +52,16 @@ function createMarioFactory(sprite, audio) {
         const mario = new Entity();
         mario.audio = audio;
         mario.size.set(14, 16);
-        
+
         mario.addTrait(new Physics());
         mario.addTrait(new Solid());
         mario.addTrait(new Go());
         mario.addTrait(new Jump());
-        mario.addTrait(new Stomper());
         mario.addTrait(new Killable());
+        mario.addTrait(new Stomper());
 
-        mario.traits.get(Killable).removeAfter = 0;
+        mario.traits.get(Killable).removeAfter = Infinity;
+        mario.traits.get(Jump).velocity = 175;
 
         mario.turbo = setTurboState;
         mario.draw = drawMario;

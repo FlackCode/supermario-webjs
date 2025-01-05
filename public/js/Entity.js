@@ -13,17 +13,19 @@ export const Sides = {
 
 export default class Entity {
     constructor() {
+        this.id = null;
         this.audio = new AudioBoard();
-        this.canCollide = true;
+        this.sounds = new Set();
+        this.events = new EventBuffer();
+
         this.pos = new Vec2(0, 0);
         this.vel = new Vec2(0, 0);
         this.size = new Vec2(0,0);
         this.offset = new Vec2(0, 0);
         this.bounds = new BoundingBox(this.pos, this.size, this.offset);
         this.lifetime = 0;
+
         this.traits = new Map();
-        this.sounds = new Set();
-        this.events = new EventBuffer();
     }
 
     addTrait(trait) {
@@ -42,10 +44,6 @@ export default class Entity {
         });
     }
 
-    draw() {
-        
-    }
-
     finalize() {
         this.events.emit(Trait.EVENT_TASK, this);
         this.traits.forEach(trait => {
@@ -55,11 +53,16 @@ export default class Entity {
         this.events.clear();
     }
 
+    draw() {
+        
+    }
+
     update(gameContext, level) {
         this.traits.forEach(trait => {
             trait.update(this, gameContext, level);
         });
         this.playSounds(this.audio, gameContext.audioContext);
+        
         this.lifetime += gameContext.deltaTime;
     }
 
