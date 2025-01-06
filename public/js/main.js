@@ -13,6 +13,7 @@ import TimedScene from "./TimedScene.js";
 import Scene from "./Scene.js";
 import { createTextLayer } from "./layers/text.js";
 import { createCollisionLayer } from "./layers/collision.js";
+import Pipe, { connectEntity } from "./traits/Pipe.js";
 
 async function main(canvas) {
     const videoContext = canvas.getContext("2d");
@@ -57,7 +58,27 @@ async function main(canvas) {
             }
         });
 
-        //level.comp.layers.push(createCollisionLayer(level));
+        level.events.listen(Pipe.EVENT_PIPE_COMPLETE, async pipe => {
+            if (pipe.props.goesTo) {
+                const nextLevel = await setupLevel(pipe.props.goesTo.name);
+                sceneRunner.addScene(nextLevel);
+                sceneRunner.runNext();
+                if (pipe.props.backTo) {
+                    console.log(pipe.props);
+                    nextLevel.events.listen(Level.EVENT_COMPLETE, async () => {
+                        const level = await setupLevel(name);
+                        const exitPipe = level.entities.get(pipe.props.backTo);
+                        connectEntity(exitPipe, mario);
+                        sceneRunner.addScene(level);
+                        sceneRunner.runNext();
+                    });
+                } else {
+                    level.events.emit(Level.EVENT_COMPLETE);
+                }
+            }
+        });
+
+        level.comp.layers.push(createCollisionLayer(level));
 
         const dashboardLayer = createDashboardLayer(font, mario);
         level.comp.layers.push(dashboardLayer);
@@ -73,7 +94,7 @@ async function main(canvas) {
         const dashboardLayer = createDashboardLayer(font, mario);
 
         const waitScreen = new TimedScene();
-        waitScreen.countDown = 3;
+        waitScreen.countDown = 0;
         waitScreen.comp.layers.push(createColorLayer('#000'));
         waitScreen.comp.layers.push(dashboardLayer);
         waitScreen.comp.layers.push(playerProgressLayer);
@@ -98,7 +119,7 @@ async function main(canvas) {
         sceneRunner.update(gameContext);
     }
     timer.start();
-    startWorld("1-1");
+    startWorld("1-2");
 }
 
 const canvas = document.getElementById("screen");

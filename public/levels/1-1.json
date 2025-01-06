@@ -290,6 +290,17 @@
         {
             "name": "flag-pole",
             "pos": [3168, 48]
+        },
+        {
+            "name": "pipe-portal",
+            "pos": [452, 174],
+            "props": {
+                "dir": "DOWN",
+                "goesTo": {
+                    "name": "1-2"
+                },
+                "backTo": "outlet1"
+            }
         }
     ],
     "triggers": []

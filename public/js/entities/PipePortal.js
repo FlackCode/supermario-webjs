@@ -21,6 +21,7 @@ function createPipeFactory(audio) {
         entity.props = props;
         entity.audio = audio;
         entity.size.set(24, 30);
+        entity.pos.set(64, 64);
         entity.addTrait(pipe);
         return entity;
     }
