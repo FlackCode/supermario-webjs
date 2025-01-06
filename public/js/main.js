@@ -15,6 +15,12 @@ import { createTextLayer } from "./layers/text.js";
 import { createCollisionLayer } from "./layers/collision.js";
 import Pipe, { connectEntity } from "./traits/Pipe.js";
 
+const triggerState = {
+    inTriggerZone: false,
+    currentTriggerSpec: null,
+    enterPressed: false
+};
+
 async function main(canvas) {
     const videoContext = canvas.getContext("2d");
     const audioContext = new AudioContext();
@@ -29,7 +35,7 @@ async function main(canvas) {
     const mario = entityFactory.mario();
     makePlayer(mario, "MARIO");
 
-    const inputRouter = setupKeyboard(window);
+    const inputRouter = setupKeyboard(window, triggerState);
     inputRouter.addReceiver(mario);
 
     function createLoadingScreen(name) {
@@ -50,8 +56,11 @@ async function main(canvas) {
         bootstrapPlayer(mario, level);
 
         level.events.listen(Level.EVENT_TRIGGER, (spec, trigger, touches) => {
-            if (spec.type === "goto") {
+            if (spec.type === "goto" && triggerState.enterPressed) {
                 for (const _ of findPlayers(touches)) {
+                    triggerState.inTriggerZone = true;
+                    triggerState.currentTriggerSpec = spec;
+                    triggerState.enterPressed = false;
                     startWorld(spec.name);
                     return;
                 }
@@ -78,7 +87,7 @@ async function main(canvas) {
             }
         });
 
-        level.comp.layers.push(createCollisionLayer(level));
+        //level.comp.layers.push(createCollisionLayer(level));
 
         const dashboardLayer = createDashboardLayer(font, mario);
         level.comp.layers.push(dashboardLayer);
@@ -87,6 +96,9 @@ async function main(canvas) {
     }
 
     async function startWorld(name) {
+        triggerState.inTriggerZone = false;
+        triggerState.currentTriggerSpec = null;
+
         const level = await setupLevel(name);
         resetPlayer(mario, name);
 
@@ -119,7 +131,7 @@ async function main(canvas) {
         sceneRunner.update(gameContext);
     }
     timer.start();
-    startWorld("1-2");
+    startWorld("1-1");
 }
 
 const canvas = document.getElementById("screen");

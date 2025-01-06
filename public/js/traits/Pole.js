@@ -19,7 +19,6 @@ export default class Pole extends Trait {
     }
 
     addTraveller(pole, traveller) {
-        console.log("test")
         pole.sounds.add("ride");
 
         const poleTraveller = traveller.traits.get(PoleTraveller);
@@ -34,7 +33,6 @@ export default class Pole extends Trait {
     }
 
     collides(pole, traveller) {
-        console.log("test")
         if (!traveller.traits.has(PoleTraveller)) {
             return;
         }
@@ -47,7 +45,6 @@ export default class Pole extends Trait {
     }
 
     update(pole, {deltaTime}, level) {
-        console.log(pole.pos, level.entities);
         const distance = this.velocity * deltaTime;
         for (const [traveller, state] of this.travellers.entries()) {
             if (!state.done) {

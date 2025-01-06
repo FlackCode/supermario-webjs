@@ -4,7 +4,7 @@ import Go from "./traits/Go.js";
 import Jump from "./traits/Jump.js";
 import PipeTraveller from "./traits/PipeTraveller.js";
 
-export function setupKeyboard(window) {
+export function setupKeyboard(window, triggerState) {
     const input = new Keyboard();
     const router = new InputRouter();
 
@@ -41,6 +41,9 @@ export function setupKeyboard(window) {
     });
     input.addMapping("ShiftLeft", keyState => {
         router.route(entity => entity.turbo(keyState));
-    })
+    });
+    input.addMapping("Enter", keyState => {
+        triggerState.enterPressed = true;
+    });
     return router;
 }

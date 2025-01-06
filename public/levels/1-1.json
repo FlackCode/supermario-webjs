@@ -303,5 +303,11 @@
             }
         }
     ],
-    "triggers": []
+    "triggers": [
+        {
+            "type": "goto",
+            "name": "1-2",
+            "pos": [3240, 160]
+        }
+    ]
 }

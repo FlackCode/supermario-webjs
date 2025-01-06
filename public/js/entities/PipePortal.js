@@ -14,7 +14,6 @@ export function loadPipePortal(audioContext) {
 
 function createPipeFactory(audio) {
     return function createPipePortal(props) {
-        console.log(props);
         const pipe = new Pipe();
         pipe.direction.copy(Direction[props.dir]);
         const entity = new Entity();
