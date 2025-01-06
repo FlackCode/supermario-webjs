@@ -21,7 +21,10 @@ export function setupKeyboard(window, triggerState) {
     });
     ["KeyD", "ArrowRight"].forEach(keyName => {
         input.addMapping(keyName, keyState => {
-            router.route(entity => entity.traits.get(Go).dir += keyState ? 1 : -1);
+            router.route(entity => {
+                entity.traits.get(Go).dir += keyState ? 1 : -1;
+                entity.traits.get(PipeTraveller).direction.x += keyState ? 1 : -1;
+            });
         });
     });
     ["KeyA", "ArrowLeft"].forEach(keyName => {
