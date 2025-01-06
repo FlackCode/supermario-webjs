@@ -4,6 +4,7 @@ import { loadKoopa } from "./entities/Koopa.js"
 import { loadBullet } from "./entities/Bullet.js";
 import { loadCannon } from "./entities/Cannon.js";
 import { loadFlagPole } from "./entities/FlagPole.js";
+import { loadPipePortal } from "./entities/PipePortal.js";
 
 function createPool(size) {
     const pool = [];
@@ -39,7 +40,8 @@ export async function loadEntities(audioContext) {
         setup(loadKoopa).then(addAs("koopa-green")),
         setup(loadBullet).then(addAs("bullet")),
         setup(loadCannon).then(addAs("cannon")),
-        setup(loadFlagPole).then(addAs("flag-pole"))
+        setup(loadFlagPole).then(addAs("flag-pole")),
+        setup(loadPipePortal).then(addAs("pipe-portal"))
     ]);
 
     return entityFactories;
