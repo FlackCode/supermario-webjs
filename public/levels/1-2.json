@@ -232,6 +232,16 @@
         {
             "name": "goomba-blue",
             "pos": [2184, 128]
+        },
+        {
+            "name": "pipe-portal",
+            "pos": [2650, 130],
+            "props": {
+                "dir": "RIGHT",
+                "goesTo": {
+                    "name": "1-1"
+                }
+            }
         }
     ],
 

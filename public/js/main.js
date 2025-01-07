@@ -91,11 +91,12 @@ async function main(canvas) {
                     });
                 } else {
                     level.events.emit(Level.EVENT_COMPLETE);
+                    startWorld(pipe.props.goesTo.name);
                 }
             }
         });
 
-        //level.comp.layers.push(createCollisionLayer(level));
+        level.comp.layers.push(createCollisionLayer(level));
 
         const dashboardLayer = createDashboardLayer(font, mario);
         level.comp.layers.push(dashboardLayer);
@@ -137,9 +138,10 @@ async function main(canvas) {
         gameContext.tick++;
         gameContext.deltaTime = deltaTime;
         sceneRunner.update(gameContext);
+        console.log(mario.pos);
     }
     timer.start();
-    startWorld("1-2");
+    startWorld("1-3");
 }
 
 const canvas = document.getElementById("screen");
