@@ -1,6 +1,6 @@
 import { loadMario } from "./entities/Mario.js"
-import { loadGoomba } from "./entities/Goomba.js"
-import { loadKoopa } from "./entities/Koopa.js"
+import { loadGoombaBlue, loadGoombaBrown } from "./entities/Goomba.js"
+import { loadKoopaBlue, loadKoopaGreen } from "./entities/Koopa.js"
 import { loadBullet } from "./entities/Bullet.js";
 import { loadCannon } from "./entities/Cannon.js";
 import { loadFlagPole } from "./entities/FlagPole.js";
@@ -36,8 +36,10 @@ export async function loadEntities(audioContext) {
 
     await Promise.all([
         setup(loadMario).then(addAs("mario")),
-        setup(loadGoomba).then(addAs("goomba-brown")),
-        setup(loadKoopa).then(addAs("koopa-green")),
+        setup(loadGoombaBrown).then(addAs("goomba-brown")),
+        setup(loadGoombaBlue).then(addAs("goomba-blue")),
+        setup(loadKoopaGreen).then(addAs("koopa-green")),
+        setup(loadKoopaBlue).then(addAs("koopa-blue")),
         setup(loadBullet).then(addAs("bullet")),
         setup(loadCannon).then(addAs("cannon")),
         setup(loadFlagPole).then(addAs("flag-pole")),

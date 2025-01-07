@@ -7,8 +7,11 @@ import Physics from "../traits/Physics.js";
 import Solid from "../traits/Solid.js";
 import Stomper from "../traits/Stomper.js";
 
-export function loadGoomba() {
+export function loadGoombaBrown() {
     return loadSpriteSheet("goomba-brown").then(createGoombaFactory);
+}
+export function loadGoombaBlue() {
+    return loadSpriteSheet("goomba-blue").then(createGoombaFactory);
 }
 
 class Behavior extends Trait {

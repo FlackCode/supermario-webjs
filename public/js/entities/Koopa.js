@@ -8,8 +8,12 @@ import Killable from "../traits/Killable.js";
 import Stomper from "../traits/Stomper.js";
 import Go from "../traits/Go.js";
 
-export function loadKoopa() {
+export function loadKoopaGreen() {
     return loadSpriteSheet("koopa-green").then(createKoopaFactory);
+}
+
+export function loadKoopaBlue() {
+    return loadSpriteSheet("koopa-blue").then(createKoopaFactory);
 }
 
 const STATE_WALKING = Symbol("walking");
