@@ -69,8 +69,4 @@ export default class TileCollider {
             handler[index](tileCollisionContext);
         }
     }
-
-    test(entity) {
-        this.checkY(entity);
-    }
 }

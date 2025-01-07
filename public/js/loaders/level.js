@@ -95,6 +95,7 @@ function setupEntities(levelSpec, level, entityFactory) {
         }
         const entity = createEntity(props);
         entity.pos.set(x, y);
+        
         if (id) {
             entity.id = id;
             level.entities.add(entity);

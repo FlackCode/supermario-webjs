@@ -73,11 +73,20 @@ async function main(canvas) {
                 sceneRunner.addScene(nextLevel);
                 sceneRunner.runNext();
                 if (pipe.props.backTo) {
-                    console.log(pipe.props);
-                    nextLevel.events.listen(Level.EVENT_COMPLETE, async () => {
+                    nextLevel.events.listen(Pipe.EVENT_PIPE_COMPLETE, async () => {
                         const level = await setupLevel(name);
-                        const exitPipe = level.entities.get(pipe.props.backTo);
-                        connectEntity(exitPipe, mario);
+                        let foundExitPipe = null;
+                        for (const entity of level.entities) {
+                            if (entity.id === pipe.props.backTo) {
+                                foundExitPipe = entity;
+                            }
+                        }
+                        if (foundExitPipe) {
+                            console.log("Found exit pipe:", foundExitPipe);
+                            connectEntity(foundExitPipe, mario);
+                        } else {
+                            console.error("Exit pipe not found:", pipe.props.backTo);
+                        }
                         sceneRunner.addScene(level);
                         sceneRunner.runNext();
                     });
