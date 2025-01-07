@@ -82,7 +82,6 @@ async function main(canvas) {
                             }
                         }
                         if (foundExitPipe) {
-                            console.log("Found exit pipe:", foundExitPipe);
                             connectEntity(foundExitPipe, mario);
                         } else {
                             console.error("Exit pipe not found:", pipe.props.backTo);
@@ -140,7 +139,7 @@ async function main(canvas) {
         sceneRunner.update(gameContext);
     }
     timer.start();
-    startWorld("1-1");
+    startWorld("1-2");
 }
 
 const canvas = document.getElementById("screen");
