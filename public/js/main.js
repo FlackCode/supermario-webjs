@@ -107,6 +107,7 @@ async function main(canvas) {
     async function startWorld(name) {
         triggerState.inTriggerZone = false;
         triggerState.currentTriggerSpec = null;
+        triggerState.enterPressed = false;
 
         const level = await setupLevel(name);
         resetPlayer(mario, name);
@@ -141,7 +142,7 @@ async function main(canvas) {
         console.log(mario.pos);
     }
     timer.start();
-    startWorld("1-3");
+    startWorld("1-1");
 }
 
 const canvas = document.getElementById("screen");

@@ -3,7 +3,6 @@
     "musicSheet": "overworld",
     "patternSheet": "overworld-pattern",
     "checkpoints": [
-        [2370, 192],
         [40, 192]
     ],
 
